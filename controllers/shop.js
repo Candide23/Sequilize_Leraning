@@ -52,7 +52,20 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  re
+  req.user
+  .getCart()
+  .then(cart => {
+    return cart.getProducts()
+    .then(product => {
+      res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: cartProducts
+      });   
+    } )
+    .catch(err => console.log(err))
+  })
+  .catch(err => console.log(err));
   /*Cart.getCart(cart => {
     Product.fetchAll(products => {
       const cartProducts = [];
